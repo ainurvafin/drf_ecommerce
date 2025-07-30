@@ -45,10 +45,10 @@ INSTALLED_APPS = [
     'apps.accounts.apps.AccountsConfig',
     'apps.profiles.apps.ProfilesConfig',
     'apps.sellers.apps.SellersConfig',
+    'apps.reviews.apps.ReviewsConfig',
     'apps.shop.apps.ShopConfig',
-    'apps.common.apps.CommonConfig'
+    'apps.common.apps.CommonConfig',
     'corsheaders',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [

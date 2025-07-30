@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from apps.shop.models import Product
+
 
 class CategorySerializer(serializers.Serializer):
     name = serializers.CharField()
@@ -13,6 +15,8 @@ class SellerShopSerializer(serializers.Serializer):
     avatar = serializers.CharField(source="user.avatar")
 
 class ProductSerializer(serializers.Serializer):
+    average_rating = serializers.SerializerMethodField()
+
     seller = SellerShopSerializer()
     name = serializers.CharField()
     slug = serializers.SlugField()
@@ -24,6 +28,16 @@ class ProductSerializer(serializers.Serializer):
     image1 = serializers.ImageField()
     image2 = serializers.ImageField(required=False)
     image3 = serializers.ImageField(required=False)
+
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'description', 'price', 'average_rating']  # и т.д.
+
+    def get_average_rating(self, obj):
+        reviews = obj.reviews.all()
+        if reviews.exists():
+            return round(sum([r.rating for r in reviews]) / reviews.count(), 2)
+        return None
 
 
 class CreateProductSerializer(serializers.Serializer):
